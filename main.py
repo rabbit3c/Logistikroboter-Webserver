@@ -2,26 +2,29 @@ from flask import Flask, render_template, request
 import requests
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 
 # define robots
 robots = {
-    'robot1': 'http://192.168.1.32:5000'
+    'Roboter 1': 'http://192.168.1.32:5000',
+    'Roboter 2': 'http://192.168.1.32:5000'
 }
 
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('index.html', robots = robots)
 
 
-@app.route("/control", methods = ["POST"])
-def control():
-    action = request.form['action']
-    robot_url = robots['robot1']
-    response = requests.post(robot_url + '/control', data={'action': action})
-    return response.text
+@app.route("/control/<robot_id>", methods = ["POST"])
+def control(robot_id):
+    if robot_id in robots:
+        robot_url = robots[robot_id]
+        response = requests.post(robot_url + '/control', request.form)
+        return response.text
+    else:
+        return "Roboter nicht gefunden", 404
 
 
 if __name__ == '__main__':
