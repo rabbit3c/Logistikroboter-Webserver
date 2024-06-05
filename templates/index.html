@@ -16,13 +16,21 @@
         {% for robot_id, robot_url in robots.items() %}
         <div class="p-5 bg-white text-black text-center">
             <h2>{{ robot_id }}</h2>
-            <p id="{{ robot_id }}-state"></p>
+            <p id="{{ robot_id }}-status"></p>
 
-            <button id="{{ robot_id }}-start" class="btn btn-primary text-white" onclick="sendCommand('{{ robot_id }}', 'start')">Starten</button>
-            <button id="{{ robot_id }}-stop" class="btn btn-primary text-white" onclick="sendCommand('{{ robot_id }}', 'stop')">Stoppen</button>
+            <button id="{{ robot_id }}-start" class="btn btn-primary text-white" onclick="send_command('{{ robot_id }}', 'start')">Starten</button>
+            <button id="{{ robot_id }}-stop" class="btn btn-primary text-white" onclick="send_command('{{ robot_id }}', 'stop')">Stoppen</button>
         </div>
         {% endfor %}
 
         <script src="{{ url_for('static', filename='web_server.js') }}"></script>
+        <script>
+            const robots = JSON.parse('{{ robots | tojson | safe }}');
+
+            for (const robot_id in robots) {
+                check_update(robot_id)
+                setInterval(check_update, 3000, robot_id)
+            }
+        </script>
     </body>
 </html>

@@ -1,4 +1,5 @@
-async function sendCommand(robot_id, command) {
+//send command to robot
+async function send_command(robot_id, command) {
     console.log(`Sending command ${command} to ${robot_id}`)
 
     const formData = new URLSearchParams();
@@ -14,50 +15,54 @@ async function sendCommand(robot_id, command) {
         });
 
         const result = await response.text();
-        changeState(robot_id, result);
+        change_state(robot_id, result);
     } catch (error) {
         console.log(error);
-        document.getElementById(`${robot_id}-state`).innerText = 'Error: ' + error;
-        document.getElementById(`${robot_id}-state`).style.color = "red";
+        document.getElementById(`${robot_id}-status`).innerText = 'Error: ' + error;
+        document.getElementById(`${robot_id}-status`).style.color = "red";
     }
 }
 
-function changeState(robot_id, result) {
+//Change status of robot by updating text
+function change_state(robot_id, result) {
     start_button = document.getElementById(`${robot_id}-start`);
     stop_button = document.getElementById(`${robot_id}-stop`);
-    display_state = document.getElementById(`${robot_id}-state`);
+    display_status = document.getElementById(`${robot_id}-status`);
 
-    start_button.disabled = false;
-    stop_button.disabled = false;
-    
     switch (result) {
         case "started":
-            changeStateStarted(robot_id)
+            display_status.innerHTML = "Führt Aufgaben durch"
+            display_status.style.color = "green";
+            stop_button.disabled = false;
+            start_button.disabled = true;
             break;
 
          case "stopped":
-            display_state.innerHTML = "Angehalten, wartet auf Befehl";
-            display_state.style = "black";
+            display_status.innerHTML = "Angehalten, wartet auf Befehl";
+            display_status.style = "black";
             stop_button.disabled = true;
+            start_button.disabled = false;
             break;
 
         case "already started":
-            display_state.innerHTML = "Roboter läuft schon";
-            display_state.style.color = "orange";
-            setTimeout(changeStateStarted, 2000, robot_id)
+            display_status.innerHTML = "Roboter läuft schon";
+            display_status.style.color = "orange";
             break;
 
         default:
-            display_state.innerHTML = result;
+            display_status.innerHTML = result;
             break;
     }
 }
 
-function changeStateStarted(robot_id) {
-    document.getElementById(`${robot_id}-start`).disabled = true;
-    document.getElementById(`${robot_id}-stop`).disabled = false;
 
-    display_state = document.getElementById(`${robot_id}-state`);
-    display_state.innerHTML = "Führt Aufgaben durch"
-    display_state.style.color = "green";
+//Check for state update and update text
+async function check_update(robot_id) {
+    try {
+        const response = await fetch(`/status/${robot_id}`);
+        const result = await response.json();
+        change_state(robot_id, result.message);
+    } catch (error) {
+        console.error('Error fetching status:', error);
+    }
 }
