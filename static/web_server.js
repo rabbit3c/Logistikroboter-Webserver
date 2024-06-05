@@ -18,28 +18,46 @@ async function sendCommand(robot_id, command) {
     } catch (error) {
         console.log(error);
         document.getElementById(`${robot_id}-state`).innerText = 'Error: ' + error;
+        document.getElementById(`${robot_id}-state`).style.color = "red";
     }
 }
 
 function changeState(robot_id, result) {
-    document.getElementById(`${robot_id}-start`).disabled = false;
-    document.getElementById(`${robot_id}-stop`).disabled = false;
+    start_button = document.getElementById(`${robot_id}-start`);
+    stop_button = document.getElementById(`${robot_id}-stop`);
+    display_state = document.getElementById(`${robot_id}-state`);
+
+    start_button.disabled = false;
+    stop_button.disabled = false;
     
     switch (result) {
         case "started":
-            document.getElementById(`${robot_id}-state`).innerHTML = "Führt Aufgaben durch";
-            document.getElementById(`${robot_id}-state`).style.color = "green";
-            document.getElementById(`${robot_id}-start`).disabled = true;
+            changeStateStarted(robot_id)
             break;
 
          case "stopped":
-            document.getElementById(`${robot_id}-state`).innerHTML = "Wartet auf Befehl";
-            document.getElementById(`${robot_id}-state`).style = "black";
-            document.getElementById(`${robot_id}-stop`).disabled = true;
+            display_state.innerHTML = "Angehalten, wartet auf Befehl";
+            display_state.style = "black";
+            stop_button.disabled = true;
+            break;
+
+        case "already started":
+            display_state.innerHTML = "Roboter läuft schon";
+            display_state.style.color = "orange";
+            setTimeout(changeStateStarted, 2000, robot_id)
             break;
 
         default:
-            document.getElementById(`${robot_id}-state`).innerHTML = result;
+            display_state.innerHTML = result;
             break;
     }
+}
+
+function changeStateStarted(robot_id) {
+    document.getElementById(`${robot_id}-start`).disabled = true;
+    document.getElementById(`${robot_id}-stop`).disabled = false;
+
+    display_state = document.getElementById(`${robot_id}-state`);
+    display_state.innerHTML = "Führt Aufgaben durch"
+    display_state.style.color = "green";
 }

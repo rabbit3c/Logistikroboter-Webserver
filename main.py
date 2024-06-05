@@ -7,8 +7,8 @@ app = Flask(__name__, static_url_path='/static')
 
 # define robots
 robots = {
-    'Roboter 1': 'http://192.168.1.32:5000',
-    'Roboter 2': 'http://192.168.1.32:5000'
+    'Logistikroboter': 'http://192.168.1.32:5000',
+    'Platzhalter': 'http://192.168.1.32:5000'
 }
 
 
