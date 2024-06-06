@@ -27,6 +27,7 @@ async function send_command(robot_id, command) {
 function change_state(robot_id, result) {
     start_button = document.getElementById(`${robot_id}-start`);
     stop_button = document.getElementById(`${robot_id}-stop`);
+    settings_button = document.getElementById(`${robot_id}-settings`);
     display_status = document.getElementById(`${robot_id}-status`);
 
     switch (result) {
@@ -35,6 +36,7 @@ function change_state(robot_id, result) {
             display_status.style.color = "green";
             stop_button.disabled = false;
             start_button.disabled = true;
+            settings_button.disabled = false;
             break;
 
          case "stopped":
@@ -42,11 +44,20 @@ function change_state(robot_id, result) {
             display_status.style = "black";
             stop_button.disabled = true;
             start_button.disabled = false;
+            settings_button.disabled = false;
             break;
 
         case "already started":
             display_status.innerHTML = "Roboter läuft schon";
             display_status.style.color = "orange";
+            break;
+
+        case "not found":
+            display_status.innerHTML = "Roboter ist nicht erreichbar";
+            display_status.style.color = "red";
+            stop_button.disabled = true;
+            start_button.disabled = false;
+            settings_button.disabled = true;
             break;
 
         default:
