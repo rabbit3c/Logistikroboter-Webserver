@@ -32,7 +32,5 @@ async function set_values(robot_id) {
 
     } catch (error) {
         console.log(error);
-        document.getElementById(`${robot_id}-status`).innerText = 'Error: ' + error;
-        document.getElementById(`${robot_id}-status`).style.color = "red";
     }
 }

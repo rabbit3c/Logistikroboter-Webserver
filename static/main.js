@@ -15,20 +15,20 @@ async function send_command(robot_id, command) {
         });
 
         const result = await response.text();
-        change_state(robot_id, result);
+        change_state(result);
     } catch (error) {
         console.log(error);
-        document.getElementById(`${robot_id}-status`).innerText = 'Error: ' + error;
-        document.getElementById(`${robot_id}-status`).style.color = "red";
+        document.getElementById('robot-status').innerText = 'Error: ' + error;
+        document.getElementById('robot-status').style.color = "red";
     }
 }
 
 //Change status of robot by updating text
-function change_state(robot_id, result) {
-    start_button = document.getElementById(`${robot_id}-start`);
-    stop_button = document.getElementById(`${robot_id}-stop`);
-    settings_button = document.getElementById(`${robot_id}-settings`);
-    display_status = document.getElementById(`${robot_id}-status`);
+function change_state(result) {
+    start_button = document.getElementById('start');
+    stop_button = document.getElementById('stop');
+    settings_button = document.getElementById('settings');
+    display_status = document.getElementById('robot-status');
 
     switch (result) {
         case "started":
@@ -50,6 +50,9 @@ function change_state(robot_id, result) {
         case "already started":
             display_status.innerHTML = "Roboter läuft schon";
             display_status.style.color = "orange";
+            stop_button.disabled = false;
+            start_button.disabled = true;
+            settings_button.disabled = false;
             break;
 
         case "not found":
@@ -72,8 +75,10 @@ async function check_update(robot_id) {
     try {
         const response = await fetch(`/status/${robot_id}`);
         const result = await response.json();
-        change_state(robot_id, result.message);
+        change_state(result.message);
+
     } catch (error) {
         console.error('Error fetching status:', error);
     }
+    check_path(robot_id)
 }

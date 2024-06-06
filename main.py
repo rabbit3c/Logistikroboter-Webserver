@@ -51,16 +51,49 @@ def control(robot_id):
     
 
 # Function that the robots can call to update their status
-@app.route('/update/<robot_id>', methods = ['POST'])
-def update(robot_id):
+@app.route('/update_status/<robot_id>', methods = ['POST'])
+def update_status(robot_id):
+    if robot_id in robots:
+        data = request.json
+
+        if data is None:
+            return jsonify({'message': 'No position provided'}), 400
+        
+        robots_data[robot_id]['status'] = request.json['status']
+        return jsonify({'message': 'Updated status successfully'}), 200
+    
+    return jsonify({'message': 'Robot not found'}), 404
+
+
+# Function that the robots can call to update their position
+@app.route('/update_position/<robot_id>', methods = ['POST'])
+def update_position(robot_id):
     if robot_id in robots:
         data = request.json
 
         if data is None:
             return jsonify({'message': 'No data provided'}), 400
         
-        robots_data[robot_id]['status'] = request.json['status']
-        return jsonify({'message': 'Updated status successfully'}), 200
+        robots_data[robot_id]['x_coordinate'] = request.json['x_coordinate']
+        robots_data[robot_id]['y_coordinate'] = request.json['y_coordinate']
+        return jsonify({'message': 'Updated position successfully'}), 200
+    
+    return jsonify({'message': 'Robot not found'}), 404
+
+
+# Function that the robots can call to update their path
+@app.route('/update_path/<robot_id>', methods = ['POST'])
+def update_path(robot_id):
+    if robot_id in robots:
+        data = request.json
+
+        if data is None:
+            return jsonify({'message': 'No data provided'}), 400
+        
+        robots_data[robot_id]['start'] = request.json['start']
+        robots_data[robot_id]['target'] = request.json['target']
+
+        return jsonify({'message': 'Updated path successfully'}), 200
     
     return jsonify({'message': 'Robot not found'}), 404
 
@@ -73,6 +106,48 @@ def status(robot_id):
         return jsonify({'message': status_message})
     else:
         init()
+        return jsonify({'status': 'error', 'message': 'Robot not found'}), 404
+    
+
+# Function that returns the position of a robot to the frontend
+@app.route('/position/<robot_id>', methods=['GET'])
+def position(robot_id):
+    if robot_id in robots_data:
+        x_coordinate = None
+        y_coordinate = None
+
+        if 'x_coordinate' in robots_data[robot_id]:
+            x_coordinate = robots_data[robot_id]['x_coordinate']
+
+        if 'y_coordinate' in robots_data[robot_id]:
+            y_coordinate = robots_data[robot_id]['y_coordinate']
+
+        if x_coordinate is not None and y_coordinate is not None:
+            return jsonify({'status': 'success', 'x_coordinate': x_coordinate, 'y_coordinate': y_coordinate})
+        
+        return {'status': 'error'}
+    else:
+        return jsonify({'status': 'error', 'message': 'Robot not found'}), 404
+
+
+# Function that returns the path of a robot to the frontend
+@app.route('/path/<robot_id>', methods=['GET'])
+def path(robot_id):
+    if robot_id in robots_data:
+        start = None
+        target = None
+
+        if 'start' in robots_data[robot_id]:
+            start = robots_data[robot_id]['start']
+
+        if 'target' in robots_data[robot_id]:
+            target = robots_data[robot_id]['target']
+
+        if start is not None and target is not None:
+            return jsonify({'status': 'success', 'start': start, 'target': target})
+        
+        return {'status': 'error'}
+    else:
         return jsonify({'status': 'error', 'message': 'Robot not found'}), 404
     
     
