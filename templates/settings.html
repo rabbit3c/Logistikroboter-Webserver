@@ -14,44 +14,60 @@
         </div>
 
         <div class="p-5 bg-white text-black text-center">
-            <h2>Start Position</h2>
 
             <div class="row d-flex justify-content-center">
-                <div class="col-lg-2">
+                <div class="col-lg-3">
+                    <h2>Start Position</h2>
+
                     <h4>X-Koordinate</h4>
-                    <input type="number" min="0" id="x-coordinate" class="form-control" value="{{ x_coordinate }}">
-                </div>
-            </div>
+                    <input type="number" min="0" id="start-x-coordinate" class="form-control" value="{{ start_position[0] }}">
+                    
+                    <br>
 
-            <br>
-
-            <div class="row d-flex justify-content-center">
-                <div class="col-lg-2">
                     <h4>Y-Koordinate</h4>
-                    <input type="number" min="0" id="y-coordinate" class="form-control" value="{{ y_coordinate }}">
-                </div>
-            </div>
+                    <input type="number" min="0" id="start-y-coordinate" class="form-control" value="{{ start_position[1] }}">
 
-            <br>
-            <br>
+                    <br>
+                    <br>
 
-            <h2>Start Richtung</h2>
-            <div class="row d-flex justify-content-center">
-                <div class="col-lg-2">
+                    <h2>Start Richtung</h2>
+
                     <h4>X - Richtung</h4>
-                    <input type="number" min="-1" max="1" id="x-direction" class="form-control" value="{{ x_direction }}">
+                    <input type="number" min="-1" max="1" id="start-x-direction" class="form-control" value="{{ start_direction[0] }}">
+
+                    <br>
+
+                    <h4>Y - Richtung</h4>
+                    <input type="number" min="-1" max="1" id="start-y-direction" class="form-control" value="{{ start_direction[1] }}">
+                </div>
+
+                <div class="col-lg-3">
+                    <h2>Lieferung Position</h2>
+
+                    <h4>X - Koordinate</h4>
+                    <input type="number" min="0" id="delivery-x-coordinate" class="form-control" value="{{ delivery_position[0] }}">
+                    
+                    <bR>
+
+                    <h4>Y - Koordinate</h4>
+                    <input type="number" min="0" id="delivery-y-coordinate" class="form-control" value="{{ delivery_position[1] }}">
+
+                    <br>
+                    <br>
+
+                    <h2>Lieferung Richtung</h2>
+
+                    <h4>X - Richtung</h4>
+                    <input type="number" min="-1" max="1" id="delivery-x-direction" class="form-control" value="{{ delivery_direction[0] }}">
+
+                    <br>
+
+                    <h4>Y - Richtung</h4>
+                    <input type="number" min="-1" max="1" id="delivery-y-direction" class="form-control" value="{{ delivery_direction[1] }}">
                 </div>
             </div>
-            
+
             <br>
-
-            <div class="row d-flex justify-content-center">
-                <div class="col-lg-2">
-                    <h4>Y-Richtung</h4>
-                    <input type="number" min="-1" max="1" id="y-direction" class="form-control" value="{{ y_direction }}">
-                </div>
-            </div>
-
             <br>
 
             <button type="button" id="button-click" onclick="set_values('{{ robot_id }}')" class="btn btn-primary text-white btn-lg">

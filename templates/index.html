@@ -33,14 +33,31 @@
                     </div>
     
                     <p id="robot-status" class="mt-4"></p>
-    
-                    <button id="start" class="btn btn-primary text-white mt-2">Starten</button>
-                    <button id="stop" class="btn btn-primary text-white mt-2">Stoppen</button>
+
                     <button id="emergency-stop" class="btn btn-danger text-white mt-2">Notstopp</button>
                     <button id="settings" class="btn btn-primary text-white mt-2">Einstellungen</button>
+
+                    <br>
+                    <br>
+                    <br>
+
+                    <h5>Einräumen</h3>
+                    <p>Der Roboter scannt die Barcodes von den Gegenstände und räumt sie am ensprechenden Ort ein</p>
+                    <button id="start-store" class="btn btn-primary text-white mt-2">Starten</button>
+                    <button id="stop" class="btn btn-primary text-white mt-2">Stoppen</button>
+
+                    <br>
+                    <br>
+                    <br>
+
+                    <h5>Liefern</h3>
+                    <p>Der Roboter liefert die angegeben Gegenstände am angegeben Ort ab</p>
+                    <p class="fst-italic small">Liste der Positionen der Gegenstände. Im Format x1/y1, x2/y2, x3/y3</p>
+                    <input id="delivery-items" class="form-control" value="">
+                    <button id="start-deliver" class="btn btn-primary text-white mt-2">Starten</button>
                 </div>
             </div>
-            <div class="col-lg-7">
+            <div class="col-lg-6">
                 <br>
                 <canvas style="display: block" id="canvas" width="500" height="300"></canvas>
             </div>

@@ -8,7 +8,8 @@ function update_robot_display() {
     
     document.getElementById('robot-id').innerHTML = robot_id;
     document.getElementById('robot-status').innerHTML = ""; // Initialize or fetch the actual status
-    document.getElementById('start').onclick = () => send_command(robot_id, 'start');
+    document.getElementById('start-store').onclick = () => send_command(robot_id, 'start/store');
+    document.getElementById('start-deliver').onclick = () => send_command(robot_id, 'start/deliver');
     document.getElementById('stop').onclick = () => send_command(robot_id, 'stop');
     document.getElementById('emergency-stop').onclick = () => send_command(robot_id, 'emergency_stop');
     document.getElementById('settings').onclick = () => open_settings(robot_id);

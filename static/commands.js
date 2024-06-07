@@ -2,8 +2,20 @@
 async function send_command(robot_id, command) {
     console.log(`Sending command ${command} to ${robot_id}`)
 
+    let array_command = command.split("/")
+
     const formData = new URLSearchParams();
-    formData.append('command', command);
+    formData.append('command', array_command[0]);
+
+    if (command.length > 1) {
+        formData.append('mode', array_command[1]);
+    }
+
+    if (command == 'start/deliver') {
+        const list = convert_string_to_array(document.getElementById('delivery-items').value);
+        console.log(list)
+        formData.append('items', JSON.stringify(list));
+    }
 
     try {
         const response = await fetch(`/control/${robot_id}`, {
@@ -25,7 +37,7 @@ async function send_command(robot_id, command) {
 
 //Change status of robot by updating text
 function change_state(result) {
-    start_button = document.getElementById('start');
+    start_button = document.getElementById('start-store');
     stop_button = document.getElementById('stop');
     settings_button = document.getElementById('settings');
     display_status = document.getElementById('robot-status');
@@ -77,7 +89,6 @@ function change_state(result) {
     }
 }
 
-
 //Check for state update and update text
 async function check_update(robot_id) {
     try {
@@ -90,3 +101,11 @@ async function check_update(robot_id) {
     }
     check_path(robot_id)
 }
+
+function convert_string_to_array(input) {
+    return input.split(', ').map(pair => {
+      const [x, y] = pair.split('/');
+      return [parseInt(x), parseInt(y)];
+    });
+  }
+  

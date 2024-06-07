@@ -58,11 +58,11 @@ function draw_target(position) {
     fill_square(position[0] * width, position[1] * width);
 }
 
-function draw_robot(x, y) {
+function draw_robot(position) {
     let r = width / 2
 
     ctx.fillStyle = "blue";
-    fill_circle(x * width + r , y * width + r, r - 5)
+    fill_circle(position[0] * width + r , position[1] * width + r, r - 5)
 }
 
 async function check_path(robot_id) {
@@ -86,7 +86,7 @@ async function check_position(robot_id) {
         const response = await fetch(`/position/${robot_id}`);
         const result = await response.json();
         if (result['status'] == 'success') {
-            draw_robot(result['x_coordinate'], result['y_coordinate'])
+            draw_robot(result['position'])
         }
     } catch (error) {
         console.error('Error fetching status:', error);

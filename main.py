@@ -27,12 +27,12 @@ def settings(robot_id):
 
         values = response.json()
 
-        x_coordinate = values['x_coordinate']
-        y_coordinate = values['y_coordinate']
-        x_direction = values['x_direction']
-        y_direction = values['y_direction']
+        start_position = values['start_position']
+        delivery_position = values['delivery_position']
+        start_direction = values['start_direction']
+        delivery_direction = values['delivery_direction']
 
-        return render_template('settings.html', robot_id = robot_id, x_coordinate = x_coordinate, y_coordinate = y_coordinate, x_direction = x_direction, y_direction = y_direction)
+        return render_template('settings.html', robot_id = robot_id, start_position = start_position, delivery_position = delivery_position, start_direction = start_direction, delivery_direction = delivery_direction)
     else:
         return 'Roboter nicht gefunden', 404
     
@@ -74,8 +74,7 @@ def update_position(robot_id):
         if data is None:
             return jsonify({'message': 'No data provided'}), 400
         
-        robots_data[robot_id]['x_coordinate'] = request.json['x_coordinate']
-        robots_data[robot_id]['y_coordinate'] = request.json['y_coordinate']
+        robots_data[robot_id]['position'] = request.json['position']
         return jsonify({'message': 'Updated position successfully'}), 200
     
     return jsonify({'message': 'Robot not found'}), 404
@@ -113,17 +112,13 @@ def status(robot_id):
 @app.route('/position/<robot_id>', methods=['GET'])
 def position(robot_id):
     if robot_id in robots_data:
-        x_coordinate = None
-        y_coordinate = None
+        position = None
 
-        if 'x_coordinate' in robots_data[robot_id]:
-            x_coordinate = robots_data[robot_id]['x_coordinate']
+        if 'position' in robots_data[robot_id]:
+            position = robots_data[robot_id]['position']
 
-        if 'y_coordinate' in robots_data[robot_id]:
-            y_coordinate = robots_data[robot_id]['y_coordinate']
-
-        if x_coordinate is not None and y_coordinate is not None:
-            return jsonify({'status': 'success', 'x_coordinate': x_coordinate, 'y_coordinate': y_coordinate})
+        if position is not None:
+            return jsonify({'status': 'success', 'position': position})
         
         return {'status': 'error'}
     else:
