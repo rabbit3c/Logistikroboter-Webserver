@@ -39,11 +39,19 @@ function change_state(result) {
             settings_button.disabled = false;
             break;
 
-         case "stopped":
+        case "stopped":
             display_status.innerHTML = "Angehalten, wartet auf Befehl";
-            display_status.style = "black";
+            display_status.style.color = "black";
             stop_button.disabled = true;
             start_button.disabled = false;
+            settings_button.disabled = false;
+            break;
+
+        case "emergency_stopped":
+            display_status.innerHTML = "Angehalten wegen Notstopp";
+            display_status.style.color = "red";
+            stop_button.disabled = true;
+            start_button.disabled = true;
             settings_button.disabled = false;
             break;
 

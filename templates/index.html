@@ -36,6 +36,7 @@
     
                     <button id="start" class="btn btn-primary text-white mt-2">Starten</button>
                     <button id="stop" class="btn btn-primary text-white mt-2">Stoppen</button>
+                    <button id="emergency-stop" class="btn btn-danger text-white mt-2">Notstopp</button>
                     <button id="settings" class="btn btn-primary text-white mt-2">Einstellungen</button>
                 </div>
             </div>
@@ -45,7 +46,7 @@
             </div>
         </div>
 
-        <script src="{{ url_for('static', filename='main.js') }}"></script>
+        <script src="{{ url_for('static', filename='commands.js') }}"></script>
         <script src="{{ url_for('static', filename='settings.js') }}"></script>
         <script src="{{ url_for('static', filename='canvas.js')}}"></script>
         <script src="{{ url_for('static', filename='robot.js')}}"></script>

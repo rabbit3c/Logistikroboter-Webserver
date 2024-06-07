@@ -10,6 +10,7 @@ function update_robot_display() {
     document.getElementById('robot-status').innerHTML = ""; // Initialize or fetch the actual status
     document.getElementById('start').onclick = () => send_command(robot_id, 'start');
     document.getElementById('stop').onclick = () => send_command(robot_id, 'stop');
+    document.getElementById('emergency-stop').onclick = () => send_command(robot_id, 'emergency_stop');
     document.getElementById('settings').onclick = () => open_settings(robot_id);
 
     check_update(robot_id)
@@ -19,7 +20,7 @@ function update_robot_display() {
 
     }
     
-    interval = setInterval(check_update, 3000, robot_id)
+    interval = setInterval(check_update, 1000, robot_id)
 }
 
 function next_robot() {
