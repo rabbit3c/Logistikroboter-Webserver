@@ -1,4 +1,4 @@
-//send command to robot
+// Send command to robot
 async function send_command(robot_id, command) {
     console.log(`Sending command ${command} to ${robot_id}`)
 
@@ -35,7 +35,7 @@ async function send_command(robot_id, command) {
     }
 }
 
-//Change status of robot by updating text
+// Change status of robot by updating text
 function change_state(result) {
     start_button = document.getElementById('start-store');
     stop_button = document.getElementById('stop');
@@ -89,7 +89,7 @@ function change_state(result) {
     }
 }
 
-//Check for state update and update text
+// Check for state update and update text
 async function check_update(robot_id) {
     try {
         const response = await fetch(`/status/${robot_id}`);

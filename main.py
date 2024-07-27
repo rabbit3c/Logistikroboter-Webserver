@@ -14,11 +14,13 @@ robots = {
 robots_data = {}
 
 
+# render main page
 @app.route('/')
 def index():
     return render_template('index.html', robots = robots)
 
 
+# render settings page including sending a request to get start and delivery values from robot
 @app.route('/settings/<robot_id>')
 def settings(robot_id):
     if robot_id in robots:
@@ -158,6 +160,7 @@ def set_values(robot_id):
         return 'Roboter nicht gefunden', 404
 
 
+# Initialize robots
 def init():
     for robot_id in robots:
         robots_data[robot_id] = {'status': 'not found'}
